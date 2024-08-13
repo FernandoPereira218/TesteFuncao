@@ -38,7 +38,13 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                
+                model.CPF = model.CPF.Replace(".", "").Replace("-", "");
+                if (bo.VerificarExistencia(model.CPF))
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, "Este CPF já está registrado."));
+                }
+
                 model.Id = bo.Incluir(new Cliente()
                 {                    
                     CEP = model.CEP,
@@ -50,7 +56,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF.Replace(".", "").Replace("-", "")
+                    CPF = model.CPF
                 });
 
            
@@ -74,6 +80,13 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+                model.CPF = model.CPF.Replace(".", "").Replace("-", "");
+                if (bo.VerificarExistencia(model.CPF, model.Id))
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, "Este CPF já está registrado."));
+                }
+
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
@@ -86,7 +99,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF.Replace(".", "").Replace("-", "")
+                    CPF = model.CPF
                 });
                                
                 return Json("Cadastro alterado com sucesso");
