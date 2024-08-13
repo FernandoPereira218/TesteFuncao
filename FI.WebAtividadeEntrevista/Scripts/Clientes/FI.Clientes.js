@@ -14,7 +14,8 @@ $(document).ready(function () {
                 "Estado": $(this).find("#Estado").val(),
                 "Cidade": $(this).find("#Cidade").val(),
                 "Logradouro": $(this).find("#Logradouro").val(),
-                "Telefone": $(this).find("#Telefone").val()
+                "Telefone": $(this).find("#Telefone").val(),
+                "CPF": $(this).find("#CPF").val(),
             },
             error:
             function (r) {
@@ -29,8 +30,9 @@ $(document).ready(function () {
                 $("#formCadastro")[0].reset();
             }
         });
-    })
-    
+    });
+
+    $("#CPF").mask('###.###.###-##');
 })
 
 function ModalDialog(titulo, texto) {
