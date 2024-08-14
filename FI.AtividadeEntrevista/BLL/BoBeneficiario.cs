@@ -19,27 +19,6 @@ namespace FI.AtividadeEntrevista.BLL
         }
 
         /// <summary>
-        /// Altera um beneficiario
-        /// </summary>
-        /// <param name="beneficiario">Objeto de beneficiario</param>
-        public void Alterar(DML.Beneficiario beneficiario)
-        {
-            DAL.DaoBeneficiario cli = new DAL.DaoBeneficiario();
-            cli.Alterar(beneficiario);
-        }
-
-        /// <summary>
-        /// Consulta o beneficiario pelo id
-        /// </summary>
-        /// <param name="id">id do beneficiario</param>
-        /// <returns></returns>
-        public DML.Beneficiario Consultar(long id)
-        {
-            DAL.DaoBeneficiario cli = new DAL.DaoBeneficiario();
-            return cli.Consultar(id);
-        }
-
-        /// <summary>
         /// Consulta o beneficiario pelo id do cliente
         /// </summary>
         /// <param name="idCliente">id do beneficiario</param>
@@ -53,17 +32,6 @@ namespace FI.AtividadeEntrevista.BLL
         /// <summary>
         /// Excluir o beneficiario pelo id
         /// </summary>
-        /// <param name="id">id do beneficiario</param>
-        /// <returns></returns>
-        public void Excluir(long id)
-        {
-            DAL.DaoBeneficiario cli = new DAL.DaoBeneficiario();
-            cli.Excluir(id);
-        }
-
-        /// <summary>
-        /// Excluir o beneficiario pelo id
-        /// </summary>
         /// <param name="idCliente">id do cliente</param>
         /// <returns></returns>
         public void ExcluirPorCliente(long idCliente)
@@ -72,33 +40,5 @@ namespace FI.AtividadeEntrevista.BLL
             cli.ExcluirPorCliente(idCliente);
         }
 
-        /// <summary>
-        /// Lista os clientes
-        /// </summary>
-        public List<DML.Beneficiario> Listar()
-        {
-            DAL.DaoBeneficiario cli = new DAL.DaoBeneficiario();
-            return cli.Listar();
-        }
-
-        /// <summary>
-        /// Lista os clientes
-        /// </summary>
-        public List<DML.Beneficiario> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
-        {
-            DAL.DaoBeneficiario cli = new DAL.DaoBeneficiario();
-            return cli.Pesquisa(iniciarEm, quantidade, campoOrdenacao, crescente, out qtd);
-        }
-
-        /// <summary>
-        /// VerificaExistencia
-        /// </summary>
-        /// <param name="CPF"></param>
-        /// <returns></returns>
-        public bool VerificarExistencia(string CPF)
-        {
-            DAL.DaoBeneficiario cli = new DAL.DaoBeneficiario();
-            return cli.VerificarExistencia(CPF);
-        }
     }
 }
