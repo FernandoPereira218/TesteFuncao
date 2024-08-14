@@ -4,6 +4,11 @@ $(document).ready(function () {
     $('#formCadastro').submit(function (e) {
         e.preventDefault();
 
+        if (!TestaDigitoVerificadorCPF($(this).find("#CPF").val())) {
+            alert("CPF inválido!");
+            return;
+        }
+
         $.ajax({
             url: urlPost,
             method: "POST",
@@ -36,6 +41,8 @@ $(document).ready(function () {
     });
 
     $(".CPF").mask('###.###.###-##');
+
+    $("#tabelaBeneficiarios").hide();
 })
 
 function ModalDialog(titulo, texto) {
@@ -67,7 +74,7 @@ function ModalDialog(titulo, texto) {
  * @param {any} strCPF String de CPF
  * @returns
  */
-function TestaCPF(strCPF) {
+function TestaDigitoVerificadorCPF(strCPF) {
     var Soma;
     var Resto;
     Soma = 0;
@@ -88,6 +95,20 @@ function TestaCPF(strCPF) {
     if ((Resto == 10) || (Resto == 11)) Resto = 0;
     if (Resto != parseInt(strCPF.substring(10, 11))) return false;
     return true;
+}
+
+/**
+ * Verificar se já há um CPF igual adicionado na lista
+ * @param {any} strCPF
+ * @param {any} posicao
+ * @returns True se for duplicado, false se não for
+ */
+function TesteCPFBeneficiarioDuplicado(strCPF, posicao) {
+    if (posicao) { //se tem posição, é por ser uma edição
+        return beneficiarios.some((x, i) => x.CPF.replaceAll(".", '').replaceAll("-", "") === strCPF.replaceAll(".", '').replaceAll("-", "") && i !== posicao);
+    } else { //Se não, é uma adição, então é só conferir no array inteiro
+        return beneficiarios.some(x => x.CPF.replaceAll(".", '').replaceAll("-", "") === strCPF.replaceAll(".", '').replaceAll("-", ""));
+    }
 }
 
 function ModalBeneficiarios() {
@@ -113,6 +134,12 @@ function AtualizarListaBeneficiarios(lista) {
     });
 
     $("#listaBeneficiarios").append(textoFinal);
+
+    if (lista.length === 0) {
+        $("#tabelaBeneficiarios").hide();
+    } else {
+        $("#tabelaBeneficiarios").show();
+    }
 }
 
 function AlterarTelaEdicao(editar = false) {
@@ -132,8 +159,18 @@ function IncluirBeneficiario() {
         Nome: $("#NomeBeneficiario").val(),
     };
 
-    if (!TestaCPF(beneficiario.CPF)) {
+    if (!beneficiario.Nome) {
+        alert("O nome é obrigatório");
+        return;
+    }
+
+    if (!TestaDigitoVerificadorCPF(beneficiario.CPF)) {
         alert("O CPF não é válido!");
+        return;
+    }
+
+    if (TesteCPFBeneficiarioDuplicado(beneficiario.CPF)) {
+        alert("Este cliente já possui um beneficiário com este CPF");
         return;
     }
 
@@ -164,8 +201,18 @@ function EditarBeneficiario() {
         Nome: $("#NomeBeneficiario").val(),
     };
 
-    if (!TestaCPF(beneficiarioEdicao.CPF)) {
+    if (!beneficiarioEdicao.Nome) {
+        alert("O nome é obrigatório");
+        return;
+    }
+
+    if (!TestaDigitoVerificadorCPF(beneficiarioEdicao.CPF)) {
         alert("O CPF não é válido!");
+        return;
+    }
+
+    if (TesteCPFBeneficiarioDuplicado(beneficiarioEdicao.CPF, posicaoEditar)) {
+        alert("Este cliente já possui um beneficiário com este CPF");
         return;
     }
 
@@ -186,4 +233,7 @@ function EditarBeneficiario() {
 
 function CancelarEdicao() {
     AlterarTelaEdicao(false);
+
+    $("#CPFBeneficiario").val("");
+    $("#NomeBeneficiario").val("");
 }

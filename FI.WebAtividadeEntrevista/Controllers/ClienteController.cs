@@ -161,7 +161,7 @@ namespace WebAtividadeEntrevista.Controllers
                 BoBeneficiario boBeneficiario = new BoBeneficiario();
                 model.Beneficiarios = boBeneficiario.ConsultarPorCliente(model.Id).Select(x => new BeneficiarioModel
                 {
-                    CPF = x.CPF,
+                    CPF = x.DisplayCPF,
                     Id = x.Id,
                     IdCliente = x.IdCliente,
                     Nome = x.Nome
