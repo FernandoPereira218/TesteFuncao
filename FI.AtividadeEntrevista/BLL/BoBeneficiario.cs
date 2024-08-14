@@ -62,6 +62,17 @@ namespace FI.AtividadeEntrevista.BLL
         }
 
         /// <summary>
+        /// Excluir o beneficiario pelo id
+        /// </summary>
+        /// <param name="idCliente">id do cliente</param>
+        /// <returns></returns>
+        public void ExcluirPorCliente(long idCliente)
+        {
+            DAL.DaoBeneficiario cli = new DAL.DaoBeneficiario();
+            cli.ExcluirPorCliente(idCliente);
+        }
+
+        /// <summary>
         /// Lista os clientes
         /// </summary>
         public List<DML.Beneficiario> Listar()

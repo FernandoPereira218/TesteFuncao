@@ -1,4 +1,6 @@
-﻿
+﻿var beneficiarios = [];
+var posicaoEditar = -1;
+
 $(document).ready(function () {
     if (obj) {
         $('#formCadastro #Nome').val(obj.Nome);
@@ -11,6 +13,9 @@ $(document).ready(function () {
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
         $("#formCadastro #CPF").val(obj.CPF);
+        
+        beneficiarios = obj.Beneficiarios;
+        AtualizarListaBeneficiarios(beneficiarios);
     }
 
     $('#formCadastro').submit(function (e) {
@@ -30,6 +35,7 @@ $(document).ready(function () {
                 "Logradouro": $(this).find("#Logradouro").val(),
                 "Telefone": $(this).find("#Telefone").val(),
                 "CPF": $(this).find("#CPF").val(),
+                "Beneficiarios": beneficiarios
             },
             error:
             function (r) {
@@ -49,6 +55,34 @@ $(document).ready(function () {
 
     $(".CPF").mask('###.###.###-##');
 })
+
+/**
+ * Fonte: https://www.devmedia.com.br/validar-cpf-com-javascript/23916
+ * @param {any} strCPF String de CPF
+ * @returns
+ */
+function TestaCPF(strCPF) {
+    var Soma;
+    var Resto;
+    Soma = 0;
+    if (strCPF == "00000000000") return false;
+
+    strCPF = strCPF.replaceAll(".", '').replaceAll("-", "");
+
+    for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+    Soma = 0;
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+    return true;
+}
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');
@@ -76,4 +110,98 @@ function ModalDialog(titulo, texto) {
 
 function ModalBeneficiarios() {
     $("#modalBeneficiarios").modal('show');
+}
+
+function AtualizarListaBeneficiarios(lista) {
+    $("#listaBeneficiarios").html("");
+    var textoFinal = '';
+    lista.forEach((obj, index) => {
+        var texto = '<tr>                                           ' +
+            '            <td id="beneficiario_' + index + '_CPF">' + obj.CPF + '</td>                      ' +
+            '            <td id="beneficiario_' + index + '_Nome">' + obj.Nome + '</td>                     ' +
+            '            <td>' +
+            '               <div>' +
+            '                   <button type="button" class="btn btn-primary btn-md" onclick="AlterarBeneficiario(' + index + ');">Alterar</button > ' +
+            '                   <button type="button" class="btn btn-primary btn-md" onclick="RemoverBeneficiario(' + index + ');">Excluir</button>   ' +
+            '                </div >' +
+            '            </td> ' +
+            '        </tr>';
+
+        textoFinal += texto;
+    });
+
+    $("#listaBeneficiarios").append(textoFinal);
+}
+
+function AlterarTelaEdicao(editar = false) {
+    if (editar) {
+        $("#divIncluir").hide();
+        $("#divAlterar").show();
+    } else {
+        $("#divIncluir").show();
+        $("#divAlterar").hide();
+    }
+}
+
+function IncluirBeneficiario() {
+
+    var beneficiario = {
+        CPF: $("#CPFBeneficiario").val(),
+        Nome: $("#NomeBeneficiario").val(),
+    };
+
+    if (!TestaCPF(beneficiario.CPF)) {
+        alert("O CPF não é válido!");
+        return;
+    }
+
+    $("#CPFBeneficiario").val("");
+    $("#NomeBeneficiario").val("");
+
+    beneficiarios.push(beneficiario);
+
+    AtualizarListaBeneficiarios(beneficiarios);
+}
+
+function AlterarBeneficiario(posicao) {
+    AlterarTelaEdicao(true);
+    var beneficiario = beneficiarios.filter((x, i) => i === posicao)[0];
+    $("#CPFBeneficiario").val(beneficiario.CPF);
+    $("#NomeBeneficiario").val(beneficiario.Nome);
+    posicaoEditar = posicao;
+}
+
+function RemoverBeneficiario(posicao) {
+    beneficiarios = beneficiarios.filter((x, i) => i !== posicao);
+    AtualizarListaBeneficiarios(beneficiarios);
+}
+
+function EditarBeneficiario() {
+    var beneficiarioEdicao = {
+        CPF: $("#CPFBeneficiario").val(),
+        Nome: $("#NomeBeneficiario").val(),
+    };
+
+    if (!TestaCPF(beneficiarioEdicao.CPF)) {
+        alert("O CPF não é válido!");
+        return;
+    }
+
+    beneficiarios = beneficiarios.map((x, i) => {
+        if (i !== posicaoEditar) return x;
+        return {
+            ...beneficiarioEdicao
+        };
+    });
+
+    $("#CPFBeneficiario").val("");
+    $("#NomeBeneficiario").val("");
+
+    AlterarTelaEdicao(false);
+
+    AtualizarListaBeneficiarios(beneficiarios);
+}
+
+function CancelarEdicao() {
+    AlterarTelaEdicao(false);
 }

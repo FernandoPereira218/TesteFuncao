@@ -114,7 +114,22 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone,
                     CPF = model.CPF
                 });
-                               
+
+                BoBeneficiario boBeneficiario = new BoBeneficiario();
+                boBeneficiario.ExcluirPorCliente(model.Id);
+                if (model.Beneficiarios != null && model.Beneficiarios.Any())
+                {
+                    foreach (var beneficiario in model.Beneficiarios)
+                    {
+                        boBeneficiario.Incluir(new Beneficiario()
+                        {
+                            CPF = beneficiario.CPF.Replace(".", "").Replace("-", ""),
+                            IdCliente = model.Id,
+                            Nome = beneficiario.Nome
+                        });
+                    }
+                }
+
                 return Json("Cadastro alterado com sucesso");
             }
         }

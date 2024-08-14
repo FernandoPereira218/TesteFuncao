@@ -187,4 +187,3 @@ function EditarBeneficiario() {
 function CancelarEdicao() {
     AlterarTelaEdicao(false);
 }
-
