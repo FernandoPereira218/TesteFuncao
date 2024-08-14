@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FI.AtividadeEntrevista.DML;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace WebAtividadeEntrevista.Models
     public class ClienteModel
     {
         public long Id { get; set; }
-        
+
         /// <summary>
         /// CEP
         /// </summary>
@@ -74,5 +75,6 @@ namespace WebAtividadeEntrevista.Models
         [RegularExpression("([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[-]?[0-9]{2})", ErrorMessage = "Digite um CPF válido")]
         public string CPF { get; set; }
 
-    }    
+        public List<BeneficiarioModel> Beneficiarios { get; set; }
+    }
 }

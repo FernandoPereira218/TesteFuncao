@@ -47,7 +47,7 @@ $(document).ready(function () {
         });
     })
 
-    $("#CPF").mask('###.###.###-##');
+    $(".CPF").mask('###.###.###-##');
 })
 
 function ModalDialog(titulo, texto) {
@@ -72,4 +72,8 @@ function ModalDialog(titulo, texto) {
 
     $('body').append(texto);
     $('#' + random).modal('show');
+}
+
+function ModalBeneficiarios() {
+    $("#modalBeneficiarios").modal('show');
 }

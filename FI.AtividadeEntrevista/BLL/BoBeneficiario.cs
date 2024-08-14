@@ -40,6 +40,17 @@ namespace FI.AtividadeEntrevista.BLL
         }
 
         /// <summary>
+        /// Consulta o beneficiario pelo id do cliente
+        /// </summary>
+        /// <param name="idCliente">id do beneficiario</param>
+        /// <returns></returns>
+        public List<DML.Beneficiario> ConsultarPorCliente(long idCliente)
+        {
+            DAL.DaoBeneficiario cli = new DAL.DaoBeneficiario();
+            return cli.ConsultarPorCliente(idCliente);
+        }
+
+        /// <summary>
         /// Excluir o beneficiario pelo id
         /// </summary>
         /// <param name="id">id do beneficiario</param>

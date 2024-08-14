@@ -48,6 +48,18 @@ namespace FI.AtividadeEntrevista.DAL
             return cli.FirstOrDefault();
         }
 
+        internal List<DML.Beneficiario> ConsultarPorCliente(long IdCliente)
+        {
+            List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+
+            parametros.Add(new System.Data.SqlClient.SqlParameter("IdCliente", IdCliente));
+
+            DataSet ds = base.Consultar("FI_SP_ConsBeneficiarioPorCliente", parametros);
+            List<DML.Beneficiario> cli = Converter(ds);
+
+            return cli;
+        }
+
         internal bool VerificarExistencia(string CPF)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();

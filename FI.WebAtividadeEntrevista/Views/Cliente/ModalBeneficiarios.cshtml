@@ -1,0 +1,64 @@
+﻿<div id="modalBeneficiarios" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Beneficiários</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formBeneficiarios" method="post">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="CPFBeneficiario">CPF:</label>
+                                <input required="required" type="text" class="form-control CPF" id="CPFBeneficiario" name="CPFBeneficiario" placeholder="Ex.: 010.011.111-00" maxlength="14">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="NomeBeneficiario">Nome:</label>
+                                <input required="required" type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: Maria" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-lg-4" id="divIncluir">
+                            <div class="form-group" >
+                                <button type="button" class="btn btn-success btn-md" onclick="IncluirBeneficiario();">Incluir</button>
+                            </div>
+                            
+                        </div>
+                        <div id="divAlterar" style="display: none;">
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-success btn-md" onclick="EditarBeneficiario();">Atualizar</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-default btn-md" onclick="CancelarEdicao();">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="tabelaBeneficiarios">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>CPF</th>
+                                        <th>Nome</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaBeneficiarios">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div> <!-- /.modal -->
